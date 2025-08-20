@@ -1,0 +1,9 @@
+{
+  "id": "p001",
+  "name": "Teclado mecánico RGB",
+  "price": 49.99,
+  "image": "assets/images/teclado.jpg",
+  "stock": 12,
+  "category": "Periféricos",
+  "description": "Teclado mecánico con switches red y RGB."
+}
