@@ -1,0 +1,7 @@
+/* css/styles.css - estilos complementarios */
+body { background: #f8f9fa; }
+.product-card { min-height: 100%; }
+.app-toast { z-index: 1200; } /* en caso de notificaciones custom */
+.cart-item { border-bottom: 1px solid #e9ecef; padding: .5rem 0; display:flex; justify-content:space-between; align-items:center; gap:.75rem; }
+.cart-item .ci-left { max-width: 60%; }
+.cart-item .ci-right { display:flex; gap:.5rem; align-items:center; }

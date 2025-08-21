@@ -1,9 +1,87 @@
-{
-  "id": "p001",
-  "name": "Teclado mecánico RGB",
-  "price": 49.99,
-  "image": "assets/images/teclado.jpg",
-  "stock": 12,
-  "category": "Periféricos",
-  "description": "Teclado mecánico con switches red y RGB."
-}
+[
+  {
+    "id": "p001",
+    "sku": "KB-001",
+    "name": "Teclado mecánico RGB",
+    "price": 49.99,
+    "image": "../assets/images/teclado_mecanico.jpg",
+    "stock": 12,
+    "category": "Periféricos",
+    "description": "Teclado mecánico compacto con retroiluminación RGB y switches rojos.",
+    "specs": {
+      "switch": "Red",
+      "connectivity": "USB",
+      "layout": "US"
+    }
+  },
+  {
+    "id": "p002",
+    "sku": "MS-002",
+    "name": "Mouse óptico inalámbrico",
+    "price": 19.5,
+    "image": "assets/images/mouse_wireless.jpg",
+    "stock": 25,
+    "category": "Periféricos",
+    "description": "Mouse ergonómico inalámbrico con sensor de alta precisión."
+  },
+  {
+    "id": "p003",
+    "sku": "SS-010",
+    "name": "SSD NVMe 500GB",
+    "price": 74.99,
+    "image": "assets/images/ssd_500gb.jpg",
+    "stock": 8,
+    "category": "Almacenamiento",
+    "description": "Unidad de estado sólido NVMe M.2, alto rendimiento para sistemas y juegos."
+  },
+  {
+    "id": "p004",
+    "sku": "RAM-016",
+    "name": "Memoria RAM 16GB DDR4 3200MHz",
+    "price": 59.99,
+    "image": "assets/images/ram_16gb.jpg",
+    "stock": 6,
+    "category": "Componentes",
+    "description": "Módulo de 16GB DDR4 a 3200MHz, ideal para multitarea y gaming."
+  },
+  {
+    "id": "p005",
+    "sku": "PSU-550",
+    "name": "Fuente de poder 550W 80+ Bronze",
+    "price": 44.9,
+    "image": "assets/images/psu_550w.jpg",
+    "stock": 5,
+    "category": "Componentes",
+    "description": "Fuente confiable con certificación 80+ Bronze y protecciones completas."
+  },
+  {
+    "id": "p006",
+    "sku": "CASE-ATX",
+    "name": "Gabinete ATX con ventilación",
+    "price": 39.99,
+    "image": "assets/images/case_atx.jpg",
+    "stock": 3,
+    "category": "Accesorios",
+    "description": "Gabinete con soporte para radiadores y flujo de aire optimizado."
+  },
+  {
+    "id": "p007",
+    "sku": "HD-002TB",
+    "name": "Disco duro 2TB 7200RPM",
+    "price": 59.0,
+    "image": "assets/images/hdd_2tb.jpg",
+    "stock": 0,
+    "category": "Almacenamiento",
+    "description": "Disco duro mecánico con gran capacidad para almacenamiento masivo."
+  },
+  {
+    "id": "p008",
+    "sku": "CAM-1080",
+    "name": "Cámara Web 1080p",
+    "price": 29.99,
+    "image": "assets/images/webcam_1080p.jpg",
+    "stock": 18,
+    "category": "Accesorios",
+    "description": "Cámara web Full HD con micrófono integrado y autoenfoque."
+  }
+]
