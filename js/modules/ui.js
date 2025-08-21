@@ -10,6 +10,12 @@ let checkoutModal = null;
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
+function formatCurrency(value) {
+  //Para ajustar la localización/moneda de las cantidades de dinero 'en-US' y 'USD'
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+}
+
+
 export function init(deps) {
   dependencies = deps;
 
@@ -113,7 +119,7 @@ export function renderProducts(products = []) {
 }
 
 /** Render del carrito */
-export function renderCart() {
+/*export function renderCart() {
   const cartItemsContainer = $('#cartItems');
   cartItemsContainer.innerHTML = '';
 
@@ -124,6 +130,7 @@ export function renderCart() {
     const products = dependencies.productsModule.getAll();
     items.forEach((item) => {
       const p = products.find((x) => x.id === item.id);
+
       const div = document.createElement('div');
       div.className = 'cart-item d-flex align-items-center justify-content-between';
       div.innerHTML = `
@@ -180,7 +187,96 @@ export function renderCart() {
   $('#cartTotal').textContent = `$${dependencies.cart.getTotal().toFixed(2)}`;
 
   renderCartCount();
+}*/
+
+export function renderCart() {
+  const cartItemsContainer = $('#cartItems');
+  cartItemsContainer.innerHTML = '';
+
+  const items = dependencies.cart.getItems();
+  if (items.length === 0) {
+    cartItemsContainer.innerHTML = '<p class="text-muted">El carrito está vacío.</p>';
+  } else {
+    const products = dependencies.productsModule.getAll();
+    items.forEach((item) => {
+      const p = products.find((x) => x.id === item.id);
+
+      // calcular precio unitario y total por línea
+      const unitPrice = p ? Number(p.price) : 0;
+      const qty = Number(item.qty);
+      const lineTotal = unitPrice * qty;
+
+      const div = document.createElement('div');
+      div.className = 'cart-item d-flex align-items-center justify-content-between';
+      div.style.gap = '.75rem';
+      div.innerHTML = `
+        <div class="ci-left">
+          <strong>${p ? p.name : item.id}</strong>
+          <div class="small">Precio unitario: $${unitPrice.toFixed(2)}</div>
+          <div class="small text-muted">Total artículo: <span class="item-line-total fw-bold">$${lineTotal.toFixed(2)}</span></div>
+        </div>
+        <div class="ci-right d-flex align-items-center gap-2">
+          <input type="number" min="0" value="${item.qty}" data-cart-id="${item.id}" class="form-control form-control-sm cart-qty-input" style="width:5rem;" />
+          <button data-remove-id="${item.id}" class="btn btn-sm btn-outline-danger btn-remove">Eliminar</button>
+        </div>
+      `;
+      cartItemsContainer.appendChild(div);
+    });
+
+    // listeners para inputs de cantidad
+    $$('.cart-qty-input').forEach((inp) => {
+      inp.addEventListener('change', (ev) => {
+        const id = ev.target.dataset.cartId;
+        const newQtyRaw = ev.target.value;
+        const newQty = Number(newQtyRaw);
+
+        // intentar actualizar cantidad en cart (cart.updateQuantity hará validaciones)
+        const res = dependencies.cart.updateQuantity(id, newQty);
+
+        if (!res.success) {
+          // Mostrar mensaje específico según reason (si se proporciona)
+          if (res.reason === 'stock_insuficiente') {
+            showToast('Stock insuficiente para esa cantidad.');
+          } else if (res.reason === 'cantidad_invalida') {
+            showToast('Cantidad inválida. Introduzca un entero mayor o igual a 0.');
+          } else if (res.reason === 'no_en_carrito') {
+            showToast('El artículo no se encontró en el carrito.');
+          } else {
+            showToast('No se pudo actualizar la cantidad.');
+          }
+
+          // --- Sincronizar UI completa con el estado real (re-render) ---
+          // Esto garantiza que la vista refleje exactamente la "fuente de verdad"
+          renderCart();
+          renderCartCount();
+          return; // salir del handler para evitar más acciones en este callback
+        }
+
+        // éxito: re-render para actualizar line totals y totales generales
+        renderCart();
+        renderCartCount();
+      });
+    });
+
+    // listeners para botones eliminar
+    $$('.btn-remove').forEach((btn) => {
+      btn.addEventListener('click', (ev) => {
+        const id = ev.target.dataset.removeId;
+        dependencies.cart.removeItem(id);
+        renderCart();
+        renderCartCount();
+      });
+    });
+  }
+
+  // totales generales
+  $('#cartSubtotal').textContent = `$${dependencies.cart.getSubtotal().toFixed(2)}`;
+  $('#cartTax').textContent = `$${dependencies.cart.getTax().toFixed(2)}`;
+  $('#cartTotal').textContent = `$${dependencies.cart.getTotal().toFixed(2)}`;
+
+  renderCartCount();
 }
+
 
 /** Contador en header */
 export function renderCartCount() {

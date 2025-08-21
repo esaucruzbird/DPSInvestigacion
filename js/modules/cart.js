@@ -14,11 +14,11 @@ export class Cart {
   }
 
   getItems() {
-    return this.items.map(i => ({ ...i }));
+    return this.items.map((i) => ({ ...i }));
   }
 
   getQty(productId) {
-    const it = this.items.find(i => i.id === productId);
+    const it = this.items.find((i) => i.id === productId);
     return it ? Number(it.qty) : 0;
   }
 
@@ -33,7 +33,7 @@ export class Cart {
     const currentInCart = this.getQty(productId);
     if (currentInCart + qty > available) return { success: false, reason: 'stock_insuficiente', available };
 
-    const idx = this.items.findIndex(i => i.id === productId);
+    const idx = this.items.findIndex((i) => i.id === productId);
     if (idx >= 0) {
       this.items[idx].qty = this.items[idx].qty + qty;
     } else {
@@ -50,7 +50,7 @@ export class Cart {
     //se debe permitir el "0" para eliminar
     if (!validators.isNonNegativeInteger(newQty)) return { success: false, reason: 'cantidad_invalida' };
 
-    const idx = this.items.findIndex(i => i.id === productId);
+    const idx = this.items.findIndex((i) => i.id === productId);
     if (idx === -1) return { success: false, reason: 'no_en_carrito' };
 
     const available = inventory.getStock(productId);
@@ -68,7 +68,7 @@ export class Cart {
   }
 
   removeItem(productId) {
-    const idx = this.items.findIndex(i => i.id === productId);
+    const idx = this.items.findIndex((i) => i.id === productId);
     if (idx >= 0) {
       this.items.splice(idx, 1);
       this.save();
@@ -88,20 +88,20 @@ export class Cart {
     const apiProducts = api.getProducts();
     let subtotal = 0;
     for (const it of this.items) {
-      const prod = apiProducts.find(p => p.id === it.id);
+      const prod = apiProducts.find((p) => p.id === it.id);
       if (prod) subtotal += Number(prod.price) * Number(it.qty);
     }
     return Number(subtotal);
   }
 
-  getTax(taxRate = 0.10) {
+  getTax(taxRate = 0.1) {
     return this.getSubtotal() * taxRate;
   }
-  getTotal(taxRate = 0.10) {
+  getTotal(taxRate = 0.1) {
     return this.getSubtotal() + this.getTax(taxRate);
   }
 
-  toOrder(customer = { name: '', email: '', address: '' }) {
+  /*toOrder(customer = { name: '', email: '', address: '' }) {
     return {
       id: `ORD-${Date.now()}`,
       createdAt: new Date().toISOString(),
@@ -113,5 +113,35 @@ export class Cart {
         total: this.getTotal()
       }
     };
+  }*/
+
+  // Versión lista asumiendo que cart.js importa api (reemplaza toOrder original)
+  toOrder(customer = { name: '', email: '', address: '' }) {
+    const apiProducts = api.getProducts();
+    const itemsDetailed = this.getItems().map((it) => {
+      const prod = apiProducts.find((p) => p.id === it.id) || null;
+      const unitPrice = prod ? Number(prod.price) : 0;
+      const lineTotal = unitPrice * Number(it.qty);
+      return {
+        id: it.id,
+        qty: Number(it.qty),
+        price: Number(unitPrice),
+        lineTotal: Number(lineTotal),
+      };
+    });
+
+    return {
+      id: `ORD-${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      customer,
+      items: itemsDetailed,
+      totals: {
+        subtotal: this.getSubtotal(),
+        tax: this.getTax(),
+        total: this.getTotal(),
+      },
+    };
   }
+
+  
 }
