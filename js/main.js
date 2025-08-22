@@ -6,6 +6,7 @@ import * as inventory from './modules/inventory.js';
 import * as ui from './modules/ui.js';
 import * as validators from './modules/validators.js';
 import * as checkout from './modules/checkout.js';
+import * as invoice from './modules/invoice.js'; //Para la factura
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -25,7 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       inventory,
       api,
       validators,
-      checkout
+      checkout,
+      invoice //Se pasa invoice para que la factura sea usada en ui, entonces ui.js tendrá la factura disponible
     });
 
     // Render inicial

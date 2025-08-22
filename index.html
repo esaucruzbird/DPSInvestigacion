@@ -1,142 +1,174 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mi Tienda - Carrito de Compras</title>
-  <meta name="description" content="Tienda de productos informáticos — demo carrito de compras con manejo de inventario" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mi Tienda - Carrito de Compras</title>
+    <meta name="description" content="Tienda de productos informáticos — demo carrito de compras con manejo de inventario" />
 
-  <!-- Bootstrap (local) -->
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Bootstrap (local) -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-  <!-- Tus estilos adicionales -->
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <header class="site-header bg-light py-3 border-bottom">
-    <div class="container d-flex align-items-center justify-content-between">
-      <h1 class="h4 mb-0">MiTienda Informática</h1>
+    <!-- Tus estilos adicionales -->
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header bg-light py-3 border-bottom">
+      <div class="container d-flex align-items-center justify-content-between">
+        <h1 class="h4 mb-0">MiTienda Informática</h1>
 
-      <div class="d-flex align-items-center gap-2">
-        <input id="searchInput" class="form-control form-control-sm" type="search" placeholder="Buscar productos..." aria-label="Buscar productos" style="min-width:220px;">
-        <select id="categoryFilter" class="form-select form-select-sm" aria-label="Filtrar por categoría" style="width:auto;">
-          <option value="">Todas</option>
-          <option value="Periféricos">Periféricos</option>
-          <option value="Componentes">Componentes</option>
-          <option value="Almacenamiento">Almacenamiento</option>
-          <option value="Accesorios">Accesorios</option>
-        </select>
+        <div class="d-flex align-items-center gap-2">
+          <input
+            id="searchInput"
+            class="form-control form-control-sm"
+            type="search"
+            placeholder="Buscar productos..."
+            aria-label="Buscar productos"
+            style="min-width: 220px"
+          />
+          <select id="categoryFilter" class="form-select form-select-sm" aria-label="Filtrar por categoría" style="width: auto">
+            <option value="">Todas</option>
+            <option value="Periféricos">Periféricos</option>
+            <option value="Componentes">Componentes</option>
+            <option value="Almacenamiento">Almacenamiento</option>
+            <option value="Accesorios">Accesorios</option>
+          </select>
 
-        <button id="openCartBtn" class="btn btn-outline-primary btn-sm" aria-controls="cartSidebar" aria-expanded="false">
-          Carrito <span id="cartCount" class="badge bg-secondary ms-2" aria-live="polite">0</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="container my-4">
-    <section id="productsSection" aria-label="Lista de productos">
-      <div id="productsGrid" class="row g-3">
-        <!-- Aquí se inyectarán las tarjetas de producto -->
-      </div>
-    </section>
-  </main>
-
-  <!-- Offcanvas carrito (Bootstrap) -->
-  <aside class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
-    <div class="offcanvas-header">
-      <h5 id="cartSidebarLabel">Carrito</h5>
-      <button type="button" class="btn-close text-reset" id="closeCartBtn" aria-label="Cerrar"></button>
-    </div>
-    <div class="offcanvas-body d-flex flex-column">
-      <div id="cartItems" class="flex-grow-1 overflow-auto mb-3" aria-live="polite">
-        <!-- items -->
-      </div>
-
-      <div class="cart-footer">
-        <div class="mb-2">
-          <div>Subtotal: <span id="cartSubtotal">$0.00</span></div>
-          <div>Impuestos (10%): <span id="cartTax">$0.00</span></div>
-          <div><strong>Total: <span id="cartTotal">$0.00</span></strong></div>
-        </div>
-        <button id="checkoutBtn" class="btn btn-success w-100">Proceder al pago</button>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Modal checkout (Bootstrap) -->
-  <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content" role="dialog" aria-labelledby="checkoutTitle">
-        <div class="modal-header">
-          <h5 class="modal-title" id="checkoutTitle">Checkout</h5>
-          <button type="button" class="btn-close" id="closeCheckoutBtn" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <form id="checkoutForm" novalidate>
-            <div class="mb-3">
-              <label class="form-label">Nombre completo</label>
-              <input class="form-control" type="text" name="customerName" required />
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Correo electrónico</label>
-              <input class="form-control" type="email" name="customerEmail" required />
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Dirección de envío</label>
-              <textarea class="form-control" name="customerAddress" rows="2" required></textarea>
-            </div>
-
-            <div id="checkoutErrors" role="alert" class="text-danger mb-2" aria-live="polite"></div>
-
-            <div class="d-flex justify-content-end gap-2">
-              <button type="submit" class="btn btn-primary">Confirmar compra</button>
-              <button type="button" class="btn btn-secondary" id="cancelCheckoutBtn">Cancelar</button>
-            </div>
-          </form>
+          <button id="openCartBtn" class="btn btn-outline-primary btn-sm" aria-controls="cartSidebar" aria-expanded="false">
+            Carrito <span id="cartCount" class="badge bg-secondary ms-2" aria-live="polite">0</span>
+          </button>
         </div>
       </div>
-    </div>
-  </div>
+    </header>
 
-  <footer class="site-footer bg-light py-3 border-top">
-    <div class="container text-center">
-      <small>© <span id="year"></span> MiTienda Informática — Proyecto demo</small>
-    </div>
-  </footer>
+    <main class="container my-4">
+      <section id="productsSection" aria-label="Lista de productos">
+        <div id="productsGrid" class="row g-3">
+          <!-- Aquí se inyectarán las tarjetas de producto -->
+        </div>
+      </section>
+    </main>
 
-  <!-- Template para tarjeta de producto (Bootstrap card) -->
-  <template id="product-card-template">
-    <div class="card h-100 product-card">
-      <img class="card-img-top product-image" alt="" src="">
-      <div class="card-body d-flex flex-column">
-        <h5 class="card-title product-name"></h5>
-        <p class="card-text product-desc small text-muted"></p>
+    <!-- Offcanvas carrito (Bootstrap) -->
+    <aside class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
+      <div class="offcanvas-header">
+        <h5 id="cartSidebarLabel">Carrito</h5>
+        <button type="button" class="btn-close text-reset" id="closeCartBtn" aria-label="Cerrar"></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column">
+        <div id="cartItems" class="flex-grow-1 overflow-auto mb-3" aria-live="polite">
+          <!-- items -->
+        </div>
 
-        <div class="mt-auto">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="product-price fw-bold"></span>
-            <span class="product-stock small text-secondary"></span>
+        <div class="cart-footer">
+          <div class="mb-2">
+            <div>Subtotal: <span id="cartSubtotal">$0.00</span></div>
+            <div>Impuestos (10%): <span id="cartTax">$0.00</span></div>
+            <div>
+              <strong>Total: <span id="cartTotal">$0.00</span></strong>
+            </div>
           </div>
+          <button id="checkoutBtn" class="btn btn-success w-100">Proceder al pago</button>
+        </div>
+      </div>
+    </aside>
 
-          <div class="d-flex gap-2 align-items-center">
-            <input class="form-control qty-input" type="number" min="1" value="1" style="width: 5.5rem;">
-            <button class="btn btn-primary btn-add" data-action="add">Agregar</button>
+    <!-- Modal checkout (Bootstrap) -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" role="dialog" aria-labelledby="checkoutTitle">
+          <div class="modal-header">
+            <h5 class="modal-title" id="checkoutTitle">Checkout</h5>
+            <button type="button" class="btn-close" id="closeCheckoutBtn" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="checkoutForm" novalidate>
+              <div class="mb-3">
+                <label class="form-label">Nombre completo</label>
+                <input class="form-control" type="text" name="customerName" required />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Correo electrónico</label>
+                <input class="form-control" type="email" name="customerEmail" required />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Dirección de envío</label>
+                <textarea class="form-control" name="customerAddress" rows="2" required></textarea>
+              </div>
+
+              <div id="checkoutErrors" role="alert" class="text-danger mb-2" aria-live="polite"></div>
+
+              <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-primary">Confirmar compra</button>
+                <button type="button" class="btn btn-secondary" id="cancelCheckoutBtn">Cancelar</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
-  </template>
 
-  <!-- Bootstrap JS (local) -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Modal factura (Invoice) -->
+    <div class="modal fade" id="invoiceModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Factura / Comprobante de Compra</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Aquí se inyectará el HTML de la factura -->
+            <div id="invoiceContent"></div>
+          </div>
+          <div class="modal-footer">
+            <button id="invoiceContinueBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Seguir comprando</button>
+            <button id="invoiceCloseBtn" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <!-- Si luego quieres exportar PDF, puedes añadir botón aquí -->
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <!-- pequeño script para año -->
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    <footer class="site-footer bg-light py-3 border-top">
+      <div class="container text-center">
+        <small>© <span id="year"></span> MiTienda Informática — Proyecto demo</small>
+      </div>
+    </footer>
 
-  <!-- Punto de entrada de la app -->
-  <script type="module" src="js/main.js"></script>
-</body>
+    <!-- Template para tarjeta de producto (Bootstrap card) -->
+    <template id="product-card-template">
+      <div class="card h-100 product-card">
+        <img class="card-img-top product-image" alt="" src="" />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title product-name"></h5>
+          <p class="card-text product-desc small text-muted"></p>
+
+          <div class="mt-auto">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="product-price fw-bold"></span>
+              <span class="product-stock small text-secondary"></span>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+              <input class="form-control qty-input" type="number" min="1" value="1" style="width: 5.5rem" />
+              <button class="btn btn-primary btn-add" data-action="add">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Bootstrap JS (local) -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- pequeño script para año -->
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- Punto de entrada de la app -->
+    <script type="module" src="js/main.js"></script>
+  </body>
 </html>

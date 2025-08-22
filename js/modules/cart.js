@@ -127,6 +127,8 @@ export class Cart {
         qty: Number(it.qty),
         price: Number(unitPrice),
         lineTotal: Number(lineTotal),
+        //nueva línea
+        name: prod ? prod.name : it.id
       };
     });
 

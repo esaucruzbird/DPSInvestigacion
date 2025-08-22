@@ -15,7 +15,6 @@ function formatCurrency(value) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
 }
 
-
 export function init(deps) {
   dependencies = deps;
 
@@ -216,7 +215,9 @@ export function renderCart() {
           <div class="small text-muted">Total artículo: <span class="item-line-total fw-bold">$${lineTotal.toFixed(2)}</span></div>
         </div>
         <div class="ci-right d-flex align-items-center gap-2">
-          <input type="number" min="0" value="${item.qty}" data-cart-id="${item.id}" class="form-control form-control-sm cart-qty-input" style="width:5rem;" />
+          <input type="number" min="0" value="${item.qty}" data-cart-id="${
+        item.id
+      }" class="form-control form-control-sm cart-qty-input" style="width:5rem;" />
           <button data-remove-id="${item.id}" class="btn btn-sm btn-outline-danger btn-remove">Eliminar</button>
         </div>
       `;
@@ -276,7 +277,6 @@ export function renderCart() {
 
   renderCartCount();
 }
-
 
 /** Contador en header */
 export function renderCartCount() {
@@ -389,10 +389,15 @@ function handleCheckoutSubmit(ev) {
     return;
   }
 
-  // Crear orden, procesar
+  //INICIO CAMBIO
+
+  //Crear orden, procesar
   const order = dependencies.cart.toOrder(customer);
+  //Procesar orden (decrementar stock y persistir) usando checkout.processOrder
   const result = dependencies.checkout.processOrder(order);
+
   if (!result.success) {
+    //Mostrar error y salir
     showToast('Error al procesar la orden. Intenta nuevamente.');
     return;
   }
@@ -400,10 +405,21 @@ function handleCheckoutSubmit(ev) {
   // Vaciar carrito
   dependencies.cart.clear();
 
-  // Actualizar UI
-  closeCheckoutModal();
-  closeCart();
+  // Actualizar UI: productos (stock) y carrito
+  //closeCheckoutModal();
+  //closeCart();
   renderProducts(dependencies.productsModule.getAll());
   renderCart();
+  renderCartCount();
   showToast('Compra confirmada. Gracias por su compra.');
+
+  // Mostrar factura usando el módulo invoice (pasamos la order que ya tenemos).
+  // Aseguramos que la order tenga nombres y totales (cart.toOrder debería incluirlos).
+  if (dependencies.invoice && typeof dependencies.invoice.show === 'function') {
+    dependencies.invoice.show(order);
+  } else {
+    // Fallback: notificar al usuario
+    showToast('Compra confirmada. No se pudo mostrar la factura (módulo invoice no disponible).');
+  }
+  
 }
