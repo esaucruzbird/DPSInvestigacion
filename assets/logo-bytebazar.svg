@@ -1,0 +1,38 @@
+<!-- Guardar como assets/logo-bytebazar.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 84" width="420" height="84" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">ByteBazar</title>
+  <desc id="logoDesc">Logo de ByteBazar, tienda de accesorios informáticos</desc>
+
+  <!-- Background transparente -->
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0" stop-color="#1976D2"></stop>
+      <stop offset="1" stop-color="#00BFA6"></stop>
+    </linearGradient>
+    <style>
+      .bk { fill: none; }
+      .icon-stroke { stroke: url(#g1); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+      .chip-fill { fill: url(#g1); opacity: 0.06; }
+      .brand { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; font-weight: 700; font-size: 36px; fill: #0F1724; letter-spacing: -0.5px; }
+      .tagline { font-family: "Inter", system-ui, sans-serif; font-size: 12px; fill: #6B7280; }
+      /* For dark backgrounds you can override .brand and .tagline color via CSS */
+    </style>
+  </defs>
+
+  <!-- Icon (left) : shopping bag + chip/grid -->
+  <g transform="translate(12,12) scale(1.2)">
+    <rect x="2" y="2" width="60" height="60" rx="10" class="chip-fill"></rect>
+    <rect x="6" y="8" width="20" height="20" rx="3" class="icon-stroke"></rect>
+    <rect x="34" y="8" width="20" height="20" rx="3" class="icon-stroke"></rect>
+    <line x1="6" y1="34" x2="54" y2="34" class="icon-stroke"></line>
+    <path d="M14 2 L14 -8 L46 -8 L46 2" stroke="url(#g1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+    <circle cx="20" cy="56" r="3.8" fill="#0F1724"></circle>
+    <circle cx="44" cy="56" r="3.8" fill="#0F1724"></circle>
+  </g>
+
+  <!-- Texto -->
+  <g transform="translate(100,26)">
+    <text class="brand">ByteBazar</text>
+    <text class="tagline" transform="translate(0,30)">Accesorios para tu mundo digital</text>
+  </g>
+</svg>

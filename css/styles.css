@@ -72,3 +72,22 @@ body { background: var(--bg-page); color: var(--text-primary); }
 /* Toasts y pequeños ajustes */
 .app-toast { z-index: 1300; }
 .table thead { background: rgba(13,71,161,0.06); }
+
+/* Logo circular (para <img>) */
+.brand-img {
+  width: 88px;
+  height: 88px;
+  display: block;
+  object-fit: cover;        /* recorta centrado si imagen no cuadrada */
+  border-radius: 50%;       /* hace el contorno circular */
+  background-color: rgba(255,255,255,0.06); /* ligero fondo para contraste en header oscuro */
+  padding: 6px;             /* espacio entre el logo y el borde circular */
+  box-shadow: 0 4px 12px rgba(2,6,23,0.45);  /* opcional: halo para mejorar legibilidad */
+  border: 1px solid rgba(255,255,255,0.08);  /* borde sutil */
+}
+
+/* responsive: reducir en pantallas pequeñas */
+@media (max-width: 576px) {
+  .brand-img { width: 36px; height: 36px; padding: 4px; }
+}
+
