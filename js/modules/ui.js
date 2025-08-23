@@ -15,6 +15,8 @@ function formatCurrency(value) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
 }
 
+//INICIO DE CAMBIOS PARA CERRAR FACTURA Y CARRITO DESPUES DE VER LA FACTURA
+
 export function init(deps) {
   dependencies = deps;
 
@@ -23,6 +25,41 @@ export function init(deps) {
   const modalEl = document.getElementById('checkoutModal');
   cartOffcanvas = new bootstrap.Offcanvas(cartEl);
   checkoutModal = new bootstrap.Modal(modalEl);
+
+  // === Sincronizar comportamiento cuando se cierra la factura (invoiceModal) ===
+  const invoiceModalEl = document.getElementById('invoiceModal');
+  if (invoiceModalEl) {
+    // Cuando el modal de la factura se haya ocultado completamente:
+    invoiceModalEl.addEventListener('hidden.bs.modal', () => {
+      try {
+        // Cerrar offcanvas del carrito si está abierto
+        if (cartOffcanvas && typeof cartOffcanvas.hide === 'function') cartOffcanvas.hide();
+      } catch (e) {
+        console.warn('Error cerrando cartOffcanvas:', e);
+      }
+
+      try {
+        // Cerrar modal de checkout si está abierto
+        if (checkoutModal && typeof checkoutModal.hide === 'function') checkoutModal.hide();
+      } catch (e) {
+        console.warn('Error cerrando checkoutModal:', e);
+      }
+
+      // Llevar al usuario al catálogo: focus en buscador y scroll al top del main
+      const search = document.getElementById('searchInput');
+      if (search) {
+        // enfocamos el buscador para que el usuario pueda seguir comprando fácilmente
+        search.focus({ preventScroll: true });
+      }
+      // hacer un scroll suave al inicio de la lista de productos (o top)
+      const productsSection = document.getElementById('productsSection');
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
 
   // Botones principales
   $('#openCartBtn').addEventListener('click', () => openCart());
@@ -421,5 +458,4 @@ function handleCheckoutSubmit(ev) {
     // Fallback: notificar al usuario
     showToast('Compra confirmada. No se pudo mostrar la factura (módulo invoice no disponible).');
   }
-  
 }
