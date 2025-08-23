@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mi Tienda - Carrito de Compras</title>
+    <title>ByteBazar - Tienda en línea</title>
     <meta name="description" content="Tienda de productos informáticos — demo carrito de compras con manejo de inventario" />
 
     <!-- Bootstrap (local) -->
@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <header class="site-header bg-light py-3 border-bottom">
+    <header class="site-header py-3 border-bottom">
       <div class="container d-flex align-items-center justify-content-between">
-        <h1 class="h4 mb-0">MiTienda Informática</h1>
+        <h1 class="h4 mb-0">ByteBazar - Accesorios para tu mundo digital</h1>
 
         <div class="d-flex align-items-center gap-2">
           <input
@@ -34,8 +34,8 @@
             <option value="Accesorios">Accesorios</option>
           </select>
 
-          <button id="openCartBtn" class="btn btn-outline-primary btn-sm" aria-controls="cartSidebar" aria-expanded="false">
-            Carrito <span id="cartCount" class="badge bg-secondary ms-2" aria-live="polite">0</span>
+          <button id="openCartBtn" class="btn btn-outline-light btn-sm" aria-controls="cartSidebar" aria-expanded="false">
+            Carrito <span id="cartCount" class="badge bg-dark text-white ms-2" aria-live="polite">0</span>
           </button>
         </div>
       </div>
@@ -123,7 +123,7 @@
             <div id="invoiceContent"></div>
           </div>
           <div class="modal-footer">
-            <button id="invoiceContinueBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Seguir comprando</button>
+            <button id="invoiceContinueBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Seguir comprando</button>
             <button id="invoiceCloseBtn" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
             <!-- Si luego quieres exportar PDF, puedes añadir botón aquí -->
           </div>
@@ -131,9 +131,9 @@
       </div>
     </div>
 
-    <footer class="site-footer bg-light py-3 border-top">
+    <footer class="site-footer py-3">
       <div class="container text-center">
-        <small>© <span id="year"></span> MiTienda Informática — Proyecto demo</small>
+        <small>© <span id="year"></span> ByteBazar — Demo carrito de compras</small>
       </div>
     </footer>
 

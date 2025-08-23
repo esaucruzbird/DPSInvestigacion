@@ -1,3 +1,15 @@
+:root{
+  --brand-500: #1976D2;   /* color principal (azul) */
+  --brand-700: #0D47A1;   /* header */
+  --accent-500: #00BFA6;  /* color secundario (verde azulado) */
+  --bg-page: #F7FAFC;     /* fondo seccion productos */
+  --text-primary: #111827;/* texto principal */
+  --text-muted: #6B7280;  /* texto secundario */
+  --footer-bg: #0B1320;   /* footer oscuro */
+  --card-bg: #ffffff;     /* cartas */
+  --muted-border: #E6EEF6; /* borde sutil */
+}
+
 /* css/styles.css - estilos complementarios */
 body { background: #f8f9fa; }
 .product-card { min-height: 100%; }
@@ -5,3 +17,58 @@ body { background: #f8f9fa; }
 .cart-item { border-bottom: 1px solid #e9ecef; padding: .5rem 0; display:flex; justify-content:space-between; align-items:center; gap:.75rem; }
 .cart-item .ci-left { max-width: 60%; }
 .cart-item .ci-right { display:flex; gap:.5rem; align-items:center; }
+
+/* HEADER */
+.site-header {
+  background: linear-gradient(90deg, var(--brand-700), #184EA0);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(13,71,161,0.12);
+}
+.site-header .brand { color: #fff; }
+
+/* Productos (zona principal) */
+body { background: var(--bg-page); color: var(--text-primary); }
+#productsSection { padding-top: 1rem; padding-bottom: 2rem; }
+
+/* Cards de producto */
+.card.product-card {
+  background: var(--card-bg);
+  border: 1px solid var(--muted-border);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.card.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 22px rgba(16,24,40,0.08);
+}
+.card.product-card .product-price { color: var(--brand-500); font-weight: 600; }
+.card.product-card .product-stock { color: var(--text-muted); }
+
+/* Botones primarios personalizados (usa en botones importantes) */
+.btn-accent {
+  background-color: var(--brand-500);
+  border-color: var(--brand-500);
+  color: #fff;
+}
+.btn-accent:hover, .btn-accent:focus {
+  background-color: #155fa8;
+  border-color: #155fa8;
+}
+
+/* Botón secundario/acción (verde) */
+.btn-action {
+  background-color: var(--accent-500);
+  border-color: var(--accent-500);
+  color: #003D3A;
+}
+.btn-action:hover { background-color: #00a08f; }
+
+/* FOOTER */
+.site-footer {
+  background: var(--footer-bg);
+  color: #cbd5e1;
+  border-top: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Toasts y pequeños ajustes */
+.app-toast { z-index: 1300; }
+.table thead { background: rgba(13,71,161,0.06); }
