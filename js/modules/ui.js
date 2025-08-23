@@ -395,7 +395,7 @@ function handleCategoryChange(ev) {
 }
 
 /** Manejo del submit del checkout: revalidar y procesar orden */
-function handleCheckoutSubmit(ev) {
+async function handleCheckoutSubmit(ev) {
   ev.preventDefault();
   const form = ev.target;
   const fd = new FormData(form);
@@ -405,6 +405,7 @@ function handleCheckoutSubmit(ev) {
     address: (fd.get('customerAddress') || '').trim(),
   };
 
+  //Validaciones simples
   const errors = [];
   if (!customer.name) errors.push('Nombre requerido.');
   if (!dependencies.validators.isEmail(customer.email)) errors.push('Email inválido.');
@@ -417,12 +418,11 @@ function handleCheckoutSubmit(ev) {
     return;
   }
 
-  // Revalidar stock via checkout.validateStock
-  const items = dependencies.cart.getItems();
+  // Revalidar stock (via checkout.validateStock) antes de confirmar
+  const items = dependencies.cart.getItems(); //[{id, qty}]
   const validation = dependencies.checkout.validateStock(items);
   if (!validation.ok) {
     showToast('Algunos productos no cuentan con stock suficiente. Actualice el carrito.');
-    // Puedes mostrar detalles concretos
     return;
   }
 
@@ -442,9 +442,18 @@ function handleCheckoutSubmit(ev) {
   // Vaciar carrito
   dependencies.cart.clear();
 
+  //Recargar la caché del catálogo desde la "API" (localStorage) ---
+  //Esto asegura que productsModule._productsCache refleje el stock actualizado
+  if (dependencies.productsModule && typeof dependencies.productsModule.loadProducts === 'function') {
+    //Al hacer await loadProducts asegura que la caché interna en productsModule se sincronice con el localStorage donde inventory.decrementStock guardó los cambios.
+    await dependencies.productsModule.loadProducts();
+  }
+
   // Actualizar UI: productos (stock) y carrito
   //closeCheckoutModal();
   //closeCart();
+  
+  // Actualizar UI: renderizar productos con stock actualizado y carrito vacío
   renderProducts(dependencies.productsModule.getAll());
   renderCart();
   renderCartCount();
