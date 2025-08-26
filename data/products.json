@@ -19,7 +19,7 @@
     "sku": "MS-002",
     "name": "Mouse óptico inalámbrico",
     "price": 19.5,
-    "image": "../assets/images/mouse_wireless.jpg",
+    "image": "./assets/images/mouse_wireless.jpg",
     "stock": 25,
     "category": "Periféricos",
     "description": "Mouse ergonómico inalámbrico con sensor de alta precisión."
@@ -29,7 +29,7 @@
     "sku": "SS-010",
     "name": "SSD NVMe 500GB",
     "price": 74.99,
-    "image": "../assets/images/ssd_500gb.jpg",
+    "image": "./assets/images/ssd_500gb.jpg",
     "stock": 8,
     "category": "Almacenamiento",
     "description": "Unidad de estado sólido NVMe M.2, alto rendimiento para sistemas y juegos."
@@ -39,7 +39,7 @@
     "sku": "RAM-016",
     "name": "Memoria RAM 16GB DDR4 3200MHz",
     "price": 59.99,
-    "image": "../assets/images/ram_16gb.jpg",
+    "image": "./assets/images/ram_16gb.jpg",
     "stock": 6,
     "category": "Componentes",
     "description": "Módulo de 16GB DDR4 a 3200MHz, ideal para multitarea y gaming."
@@ -49,7 +49,7 @@
     "sku": "PSU-550",
     "name": "Fuente de poder 550W 80+ Bronze",
     "price": 44.9,
-    "image": "../assets/images/psu_550w.jpg",
+    "image": "./assets/images/psu_550w.jpg",
     "stock": 5,
     "category": "Componentes",
     "description": "Fuente confiable con certificación 80+ Bronze y protecciones completas."
@@ -59,7 +59,7 @@
     "sku": "CASE-ATX",
     "name": "Gabinete ATX con ventilación",
     "price": 39.99,
-    "image": "../assets/images/case_atx.jpg",
+    "image": "./assets/images/case_atx.jpg",
     "stock": 3,
     "category": "Accesorios",
     "description": "Gabinete con soporte para radiadores y flujo de aire optimizado."
@@ -69,7 +69,7 @@
     "sku": "HD-002TB",
     "name": "Disco duro 2TB 7200RPM",
     "price": 59.0,
-    "image": "../assets/images/hdd_2tb.jpg",
+    "image": "./assets/images/hdd_2tb.jpg",
     "stock": 0,
     "category": "Almacenamiento",
     "description": "Disco duro mecánico con gran capacidad para almacenamiento masivo."
@@ -79,7 +79,7 @@
     "sku": "CAM-1080",
     "name": "Cámara Web 1080p",
     "price": 29.99,
-    "image": "../assets/images/webcam_1080p.jpg",
+    "image": "./assets/images/webcam_1080p.jpg",
     "stock": 18,
     "category": "Accesorios",
     "description": "Cámara web Full HD con micrófono integrado y autoenfoque."
