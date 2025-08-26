@@ -4,7 +4,7 @@
     "sku": "KB-001",
     "name": "Teclado mecánico RGB",
     "price": 49.99,
-    "image": "../assets/images/teclado_mecanico.jpg",
+    "image": "./assets/images/teclado_mecanico.jpg",
     "stock": 12,
     "category": "Periféricos",
     "description": "Teclado mecánico compacto con retroiluminación RGB.",
