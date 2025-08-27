@@ -1,4 +1,3 @@
-// js/modules/validators.js
 export function isPositiveInteger(value) {
   const n = Number(value);
   return Number.isInteger(n) && n > 0;

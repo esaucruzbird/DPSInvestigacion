@@ -1,4 +1,3 @@
-// js/modules/products.js
 import * as api from './api.js';
 
 let _productsCache = [];

@@ -1,4 +1,3 @@
-// js/modules/ui.js
 // Render del DOM y manejo de UI, usando Bootstrap Offcanvas, Modal y Toast.
 // Recibe en init un objeto con dependencias: productsModule, cart, inventory, api, validators, checkout.
 

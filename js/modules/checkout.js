@@ -1,5 +1,4 @@
-// js/modules/checkout.js
-// Lógica de negocio ligera para checkout (revalidaciones y procesamiento).
+//lógica de negocio ligera para checkout (revalidaciones y procesamiento).
 import * as inventory from './inventory.js';
 import * as api from './api.js';
 

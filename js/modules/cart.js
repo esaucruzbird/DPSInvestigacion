@@ -1,4 +1,3 @@
-// js/modules/cart.js
 import * as api from './api.js';
 import * as inventory from './inventory.js';
 import * as validators from './validators.js';

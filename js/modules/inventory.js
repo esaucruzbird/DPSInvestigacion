@@ -1,4 +1,3 @@
-// js/modules/inventory.js
 import * as api from './api.js';
 
 export function getStock(productId) {
