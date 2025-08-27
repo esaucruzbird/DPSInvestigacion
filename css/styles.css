@@ -1,8 +1,9 @@
+/*variables para el CSS custom properties*/
 :root{
   --brand-500: #1976D2;   /* color principal (azul) */
   --brand-700: #0D47A1;   /* header */
   --accent-500: #00BFA6;  /* color secundario (verde azulado) */
-  --bg-page: #F7FAFC;     /* fondo seccion productos */
+  --bg-page: #e7e7e7;     /* fondo seccion productos */
   --text-primary: #111827;/* texto principal */
   --text-muted: #6B7280;  /* texto secundario */
   --footer-bg: #0B1320;   /* footer oscuro */
@@ -10,11 +11,15 @@
   --muted-border: #E6EEF6; /* borde sutil */
 }
 
-/* css/styles.css - estilos complementarios */
-body { background: #f8f9fa; }
+/* estilos complementarios */
+/*body { background: #f8f9fa; }*/
 .product-card { min-height: 100%; }
-.app-toast { z-index: 1200; } /* en caso de notificaciones custom */
+/*define el apilamiento de notificaciones. Bootstrap usa z-index altos para modals/offcanvas*/
+.app-toast { z-index: 1200; }
+/*usa flex y gap para espaciar contenido con mayor legibilidad y responsividad*/
 .cart-item { border-bottom: 1px solid #e9ecef; padding: .5rem 0; display:flex; justify-content:space-between; align-items:center; gap:.75rem; }
+/*.ci-left y .ci-right dividen la tarjeta del ítem en 2 zonas (texto/controles)
+max-width: 60% evita que el texto ocupe todo el espacio*/
 .cart-item .ci-left { max-width: 60%; }
 .cart-item .ci-right { display:flex; gap:.5rem; align-items:center; }
 
@@ -26,7 +31,7 @@ body { background: #f8f9fa; }
 }
 .site-header .brand { color: #fff; }
 
-/* Productos (zona principal) */
+/* BODY productos (zona principal) */
 body { background: var(--bg-page); color: var(--text-primary); }
 #productsSection { padding-top: 1rem; padding-bottom: 2rem; }
 
@@ -69,14 +74,13 @@ body { background: var(--bg-page); color: var(--text-primary); }
   border-top: 1px solid rgba(255,255,255,0.03);
 }
 
-/* Toasts y pequeños ajustes */
-.app-toast { z-index: 1300; }
+/* Pequeño ajuste */
 .table thead { background: rgba(13,71,161,0.06); }
 
 /* Logo circular (para <img>) */
 .brand-img {
-  width: 88px;
-  height: 88px;
+  width: 92px;
+  height: 92px;
   display: block;
   object-fit: cover;        /* recorta centrado si imagen no cuadrada */
   border-radius: 50%;       /* hace el contorno circular */
