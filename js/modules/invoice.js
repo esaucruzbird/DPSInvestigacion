@@ -1,26 +1,34 @@
-// js/modules/invoice.js
-/**
- * Módulo para generar y mostrar la factura (invoice) en un modal Bootstrap.
- * Recibe una `order` con esta forma esperada:
- * {
- *   id: 'ORD-...',
- *   createdAt: 'ISO date',
- *   customer: { name, email, address },
- *   items: [ { id, qty, price, lineTotal, ... } ],
- *   totals: { subtotal, tax, total }
- * }
- */
+/*módulo para generar y mostrar la factura (invoice) en un modal Bootstrap
+  recibe una `order` con esta forma esperada:
+   {
+     id: 'ORD-...',
+     createdAt: 'ISO date',
+     customer: { name, email, address },
+     items: [ { id, qty, price, lineTotal, ... } ],
+     totals: { subtotal, tax, total }
+   } */
 
+/*formatear valores monetarios y generar el HTML de una factura o recibo a partir de
+un objeto `order` (por ejemplo, lo producido por cart.toOrder())
+muestra la factura en el modal `#invoiceModal` del index.html usando Bootstrap
+el módulo usa `innerHTML` para inyectar el HTML generado. Para evitar problemas, cada campo
+dinámico pasa por `escapeHtml()` antes de insertarse
+`formatCurrency` usa `Intl.NumberFormat` configurado con 'en-US' y USD */
+
+//formatea números a moneda usando Intl API
 export function formatCurrency(value) {
-  // Ajusta locale y currency si lo necesitas
+  //se ajusta locale y currency a lo que se necesita
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
 }
 
-/** Genera la tabla HTML de items y el bloque de totales */
+/*genera el HTML completo de la factura
+  order: objeto que incluye id, createdAt, customer, items[], totals
+  devuelve un string con la tabla y bloques de totales */
 function generateInvoiceHTML(order) {
+  //convierte la fecha ISO a cadena legible según el locale del navegador
   const date = new Date(order.createdAt).toLocaleString();
 
-  // encabezado cliente / orden
+  //encabezado cliente / orden
   let html = `
     <div class="container-fluid">
       <div class="row mb-3">
@@ -50,8 +58,9 @@ function generateInvoiceHTML(order) {
           <tbody>
   `;
 
+  //por cada línea del pedido se añade una fila a la tabla. Todos los valores dinámicos pasan por escapeHtml o formatCurrency para evitar inyección y para presentar moneda
   order.items.forEach((it, idx) => {
-    const name = it.name || it.id || '';
+    const name = it.name || it.id || ''; //nombre del producto (fallbacks)
     const qty = Number(it.qty || 0);
     const price = Number(it.price || 0);
     const lineTotal = Number(it.lineTotal ?? price * qty);
@@ -67,6 +76,7 @@ function generateInvoiceHTML(order) {
     `;
   });
 
+  //bloque para totales y mensajes
   html += `
           </tbody>
         </table>
@@ -102,8 +112,9 @@ function generateInvoiceHTML(order) {
   return html;
 }
 
-/** Util: escapar HTML simple para evitar inyección por datos no confiables */
+/*escapa caracteres especiales para intentar evitar inyección en innerHTML por datos no confiables */
 function escapeHtml(str) {
+  //si str es null/undefined y no es exactamente 0, se devuelve cadena vacía
   if (!str && str !== 0) return '';
   return String(str)
     .replaceAll('&', '&amp;')
@@ -113,10 +124,9 @@ function escapeHtml(str) {
     .replaceAll("'", '&#39;');
 }
 
-/**
- * Muestra la factura en el modal invoiceModal definido en index.html
- * @param {Object} order
- */
+/*show(order) inyecta la factura en el DOM y muestra el modal
+  se normaliza items y totales (por si faltan campos)
+  requiere que exista un elemento con id #invoiceContent y #invoiceModal en index.html */
 export function show(order) {
   const el = document.getElementById('invoiceContent');
   if (!el) {
@@ -124,7 +134,7 @@ export function show(order) {
     return;
   }
 
-  // Aseguramos que items tengan nombre y lineTotal (por si acaso)
+//normaliza items, asegura name, price, qty y lineTotal con valores numéricos válidos
   const itemsNormalized = (order.items || []).map((it) => ({
     ...it,
     name: it.name || it.productName || it.id,
@@ -133,6 +143,7 @@ export function show(order) {
     lineTotal: Number(it.lineTotal ?? Number(it.price || 0) * Number(it.qty || 0)),
   }));
 
+  //copia del order con items normalizados y totales calculados si faltan
   const orderCopy = {
     ...order,
     items: itemsNormalized,
@@ -143,13 +154,13 @@ export function show(order) {
     },
   };
 
+  //generar HTML seguro y colocarlo en el contenedor
   el.innerHTML = generateInvoiceHTML(orderCopy);
 
-  // Mostrar modal via Bootstrap
+  //muestra modal via Bootstrap
   const modalEl = document.getElementById('invoiceModal');
   const modal = new bootstrap.Modal(modalEl);
   modal.show();
 
-  // Opcional: asignar comportamiento al botón "Seguir comprando" (ya cierra por data-bs-dismiss)
-  // Si quieres alguna acción extra al cerrar puedes escuchar el evento hidden.bs.modal
+  //nota, el botón "Seguir comprando" en el modal ya tiene data-bs-dismiss, por eso ya no se manipula aqui
 }
