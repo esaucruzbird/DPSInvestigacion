@@ -3,7 +3,7 @@ const PRODUCTS_KEY = 'mt_store_products_v1';
 const ORDERS_KEY = 'mt_store_orders_v1';
 const CART_KEY = 'mt_store_cart_v1';
 
-/*inicializa persistencia. Si no existen productos en localStorage, los carga desde data/products.json mediante fetch (asincrono) y los guarda. Crea arreglos vacíos para "orders" y "carrito" si no existen*/
+/*inicializa persistencia. Si no existen productos en localstorage, los carga desde data/products.json mediante fetch (asincrono) y los guarda. Crea arreglos vacíos para "orders" y "carrito" si no existen*/
 export async function init() {
   if (!localStorage.getItem(PRODUCTS_KEY)) {
     //fetch con cache 'no-store' fuerza revalidación en algunos navegadores (ayuda para el desarrollo)

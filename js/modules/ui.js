@@ -1,5 +1,5 @@
-// Render del DOM y manejo de UI, usando Bootstrap Offcanvas, Modal y Toast.
-// Recibe en init un objeto con dependencias: productsModule, cart, inventory, api, validators, checkout.
+//render del DOM y manejo de UI, usando Bootstrap Offcanvas, Modal y Toast.
+//recibe en init un objeto con dependencias: productsModule, cart, inventory, api, validators, checkout.
 
 let dependencies = null;
 let cartOffcanvas = null;
@@ -10,7 +10,7 @@ const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
 function formatCurrency(value) {
-  //Para ajustar la localización/moneda de las cantidades de dinero 'en-US' y 'USD'
+  //para ajustar la localización/moneda de las cantidades de dinero 'en-US' y 'USD'
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
 }
 
@@ -19,38 +19,38 @@ function formatCurrency(value) {
 export function init(deps) {
   dependencies = deps;
 
-  // Inicializar Bootstrap components (depende de bootstrap.bundle.js cargado)
+  //inicializar Bootstrap components (depende de bootstrap.bundle.js cargado)
   const cartEl = document.getElementById('cartSidebar');
   const modalEl = document.getElementById('checkoutModal');
   cartOffcanvas = new bootstrap.Offcanvas(cartEl);
   checkoutModal = new bootstrap.Modal(modalEl);
 
-  // === Sincronizar comportamiento cuando se cierra la factura (invoiceModal) ===
+  //sincronizar comportamiento cuando se cierra la factura (invoiceModal)
   const invoiceModalEl = document.getElementById('invoiceModal');
   if (invoiceModalEl) {
-    // Cuando el modal de la factura se haya ocultado completamente:
+    //cuando el modal de la factura se haya ocultado completamente:
     invoiceModalEl.addEventListener('hidden.bs.modal', () => {
       try {
-        // Cerrar offcanvas del carrito si está abierto
+        //cerrar offcanvas del carrito si está abierto
         if (cartOffcanvas && typeof cartOffcanvas.hide === 'function') cartOffcanvas.hide();
       } catch (e) {
         console.warn('Error cerrando cartOffcanvas:', e);
       }
 
       try {
-        // Cerrar modal de checkout si está abierto
+        //cerrar modal de checkout si está abierto
         if (checkoutModal && typeof checkoutModal.hide === 'function') checkoutModal.hide();
       } catch (e) {
         console.warn('Error cerrando checkoutModal:', e);
       }
 
-      // Llevar al usuario al catálogo: focus en buscador y scroll al top del main
+      //llevar al usuario al catálogo, hace focus en buscador y scroll al top del main
       const search = document.getElementById('searchInput');
       if (search) {
-        // enfocamos el buscador para que el usuario pueda seguir comprando fácilmente
+        //enfocar el buscador para que el usuario pueda seguir comprando fácilmente
         search.focus({ preventScroll: true });
       }
-      // hacer un scroll suave al inicio de la lista de productos (o top)
+      //hace un scroll suave al inicio de la lista de productos (o top)
       const productsSection = document.getElementById('productsSection');
       if (productsSection) {
         productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -60,36 +60,33 @@ export function init(deps) {
     });
   }
 
-  // Botones principales
+  //botones principales
   $('#openCartBtn').addEventListener('click', () => openCart());
   $('#closeCartBtn').addEventListener('click', () => closeCart());
   $('#checkoutBtn').addEventListener('click', () => openCheckoutModal());
 
-  // Cerrar modal
+  //cerrar modal
   $('#closeCheckoutBtn').addEventListener('click', () => closeCheckoutModal());
   $('#cancelCheckoutBtn').addEventListener('click', () => closeCheckoutModal());
 
-  // Search + filter
+  //search + filter
   $('#searchInput').addEventListener('input', handleSearchInput);
   $('#categoryFilter').addEventListener('change', handleCategoryChange);
 
-  // Events from cart changes
+  //events from cart changes
   document.addEventListener('cart:updated', () => {
     renderCart();
     renderCartCount();
   });
 
-  // Checkout form
+  //checkout form
   $('#checkoutForm').addEventListener('submit', handleCheckoutSubmit);
 
-  // Initial cart count
+  //initial cart count
   renderCartCount();
 }
 
-/**
- * Renderiza productos dentro de la grid de bootstrap.
- * Cada tarjeta va dentro de una columna col-*
- */
+/*renderiza productos dentro de la grid de bootstrap. Cada tarjeta va dentro de una columna col-*/
 export function renderProducts(products = []) {
   const grid = $('#productsGrid');
   grid.innerHTML = '';
@@ -97,7 +94,7 @@ export function renderProducts(products = []) {
   const template = document.getElementById('product-card-template');
 
   products.forEach((prod) => {
-    // crear columna
+    //crear columna
     const col = document.createElement('div');
     col.className = 'col-sm-6 col-md-4 col-lg-3';
 
@@ -139,10 +136,10 @@ export function renderProducts(products = []) {
         }
       } else {
         showToast('Producto añadido al carrito.');
-        // Reiniciar solo el input asociado a esta tarjeta
+        //reinicia solo el input asociado a esta tarjeta
         if (!qtyInput.disabled) qtyInput.value = 1;
 
-        //Actualizando UI del carrito
+        //actualizando UI del carrito
         renderCart();
         renderCartCount();
       }
@@ -153,7 +150,6 @@ export function renderProducts(products = []) {
   });
 }
 
-/** Render del carrito */
 /*export function renderCart() {
   const cartItemsContainer = $('#cartItems');
   cartItemsContainer.innerHTML = '';
@@ -224,6 +220,7 @@ export function renderProducts(products = []) {
   renderCartCount();
 }*/
 
+/*render del carrito*/
 export function renderCart() {
   const cartItemsContainer = $('#cartItems');
   cartItemsContainer.innerHTML = '';
@@ -236,7 +233,7 @@ export function renderCart() {
     items.forEach((item) => {
       const p = products.find((x) => x.id === item.id);
 
-      // calcular precio unitario y total por línea
+      //calcula el precio unitario y total por línea
       const unitPrice = p ? Number(p.price) : 0;
       const qty = Number(item.qty);
       const lineTotal = unitPrice * qty;
@@ -260,18 +257,18 @@ export function renderCart() {
       cartItemsContainer.appendChild(div);
     });
 
-    // listeners para inputs de cantidad
+    //listeners para inputs de cantidad
     $$('.cart-qty-input').forEach((inp) => {
       inp.addEventListener('change', (ev) => {
         const id = ev.target.dataset.cartId;
         const newQtyRaw = ev.target.value;
         const newQty = Number(newQtyRaw);
 
-        // intentar actualizar cantidad en cart (cart.updateQuantity hará validaciones)
+        //intentar actualizar cantidad en cart, con cart.updateQuantity haciendo validaciones
         const res = dependencies.cart.updateQuantity(id, newQty);
 
         if (!res.success) {
-          // Mostrar mensaje específico según reason (si se proporciona)
+          //mostrar mensaje específico según reason (si se proporciona)
           if (res.reason === 'stock_insuficiente') {
             showToast('Stock insuficiente para esa cantidad.');
           } else if (res.reason === 'cantidad_invalida') {
@@ -282,20 +279,20 @@ export function renderCart() {
             showToast('No se pudo actualizar la cantidad.');
           }
 
-          // --- Sincronizar UI completa con el estado real (re-render) ---
-          // Esto garantiza que la vista refleje exactamente la "fuente de verdad"
+          //sincronizar UI completa con el estado real (re-render)
+          //esto garantiza que la vista refleje exactamente los valores verdaderos
           renderCart();
           renderCartCount();
-          return; // salir del handler para evitar más acciones en este callback
+          return; //sale del handler para evitar más acciones en este callback
         }
 
-        // éxito: re-render para actualizar line totals y totales generales
+        //exito, el re-render para actualizar line totals y totales generales
         renderCart();
         renderCartCount();
       });
     });
 
-    // listeners para botones eliminar
+    //listeners para botones eliminar
     $$('.btn-remove').forEach((btn) => {
       btn.addEventListener('click', (ev) => {
         const id = ev.target.dataset.removeId;
@@ -306,7 +303,7 @@ export function renderCart() {
     });
   }
 
-  // totales generales
+  //totales generales
   $('#cartSubtotal').textContent = `$${dependencies.cart.getSubtotal().toFixed(2)}`;
   $('#cartTax').textContent = `$${dependencies.cart.getTax().toFixed(2)}`;
   $('#cartTotal').textContent = `$${dependencies.cart.getTotal().toFixed(2)}`;
@@ -314,14 +311,14 @@ export function renderCart() {
   renderCartCount();
 }
 
-/** Contador en header */
+/*contador en header*/
 export function renderCartCount() {
   const countEl = $('#cartCount');
   const totalItems = dependencies.cart.getItems().reduce((s, it) => s + Number(it.qty), 0);
   countEl.textContent = totalItems;
 }
 
-/** Offcanvas control */
+/*offcanvas control*/
 export function openCart() {
   if (cartOffcanvas) cartOffcanvas.show();
 }
@@ -329,7 +326,7 @@ export function closeCart() {
   if (cartOffcanvas) cartOffcanvas.hide();
 }
 
-/** Modal control */
+/*modal control*/
 export function openCheckoutModal() {
   if (dependencies.cart.getItems().length === 0) {
     showToast('El carrito está vacío.');
@@ -341,7 +338,7 @@ export function closeCheckoutModal() {
   if (checkoutModal) checkoutModal.hide();
 }
 
-/** Toasts (Bootstrap) */
+/*configurando toasts, gracias al uso de Bootstrap*/
 export function showToast(message, ttl = 3000) {
   let container = document.getElementById('toastContainer');
   if (!container) {
@@ -378,7 +375,7 @@ export function showToast(message, ttl = 3000) {
   });
 }
 
-/** Handlers para filtros */
+/*handler para filtro según categoría*/
 function handleSearchInput(ev) {
   const q = ev.target.value;
   const category = $('#categoryFilter').value;
@@ -386,6 +383,7 @@ function handleSearchInput(ev) {
   renderProducts(filtered);
 }
 
+/*handler para filtro según nombre del producto*/
 function handleCategoryChange(ev) {
   const category = ev.target.value;
   const q = $('#searchInput').value;
@@ -393,7 +391,7 @@ function handleCategoryChange(ev) {
   renderProducts(filtered);
 }
 
-/** Manejo del submit del checkout: revalidar y procesar orden */
+/*manejando el submit del checkout: revalidar y procesar orden, es de tipo async*/
 async function handleCheckoutSubmit(ev) {
   ev.preventDefault();
   const form = ev.target;
@@ -404,7 +402,7 @@ async function handleCheckoutSubmit(ev) {
     address: (fd.get('customerAddress') || '').trim(),
   };
 
-  //Validaciones simples
+  //validaciones simples, gracias al archivo validators js
   const errors = [];
   if (!customer.name) errors.push('Nombre requerido.');
   if (!dependencies.validators.isEmail(customer.email)) errors.push('Email inválido.');
@@ -417,7 +415,7 @@ async function handleCheckoutSubmit(ev) {
     return;
   }
 
-  // Revalidar stock (via checkout.validateStock) antes de confirmar
+  //revalidar stock (via checkout.validateStock) antes de confirmar
   const items = dependencies.cart.getItems(); //[{id, qty}]
   const validation = dependencies.checkout.validateStock(items);
   if (!validation.ok) {
@@ -427,43 +425,42 @@ async function handleCheckoutSubmit(ev) {
 
   //INICIO CAMBIO
 
-  //Crear orden, procesar
+  //creando orden
   const order = dependencies.cart.toOrder(customer);
-  //Procesar orden (decrementar stock y persistir) usando checkout.processOrder
+  //procesar orden (decrementar stock y persistir) usando checkout.processOrder
   const result = dependencies.checkout.processOrder(order);
 
   if (!result.success) {
-    //Mostrar error y salir
+    //mostrar error y salir
     showToast('Error al procesar la orden. Intenta nuevamente.');
     return;
   }
 
-  // Vaciar carrito
+  //vaciar carrito
   dependencies.cart.clear();
 
-  //Recargar la caché del catálogo desde la "API" (localStorage) ---
-  //Esto asegura que productsModule._productsCache refleje el stock actualizado
+  //recargar la caché del catálogo desde la API (localstorage). Esto asegura que productsModule._productsCache refleje el stock actualizado
   if (dependencies.productsModule && typeof dependencies.productsModule.loadProducts === 'function') {
-    //Al hacer await loadProducts asegura que la caché interna en productsModule se sincronice con el localStorage donde inventory.decrementStock guardó los cambios.
+    //al hacer await loadProducts asegura que la caché interna en productsModule se sincronice con el localstorage donde inventory.decrementStock guardó los cambios
     await dependencies.productsModule.loadProducts();
   }
 
-  // Actualizar UI: productos (stock) y carrito
+  //actualizando UI: productos (stock) y carrito
   //closeCheckoutModal();
   //closeCart();
   
-  // Actualizar UI: renderizar productos con stock actualizado y carrito vacío
+  //actualizando UI, renderizar productos con stock de productos actualizado y carrito vacío
   renderProducts(dependencies.productsModule.getAll());
   renderCart();
   renderCartCount();
   showToast('Compra confirmada. Gracias por su compra.');
 
-  // Mostrar factura usando el módulo invoice (pasamos la order que ya tenemos).
-  // Aseguramos que la order tenga nombres y totales (cart.toOrder debería incluirlos).
+  //mostrar factura usando el módulo invoice (pasando la order que ya se tiene)
+  //asegurar que la order tenga nombres y totales (cart.toOrder debería incluirlos).
   if (dependencies.invoice && typeof dependencies.invoice.show === 'function') {
     dependencies.invoice.show(order);
   } else {
-    // Fallback: notificar al usuario
+    //fallback, notificar al usuario
     showToast('Compra confirmada. No se pudo mostrar la factura (módulo invoice no disponible).');
   }
 }

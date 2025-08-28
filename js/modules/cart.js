@@ -2,9 +2,8 @@
 persistencia en el estado del carrito mediante el módulo de api (localstorage)
 emite eventos del DOM cuando el carrito cambia, para que la UI pueda reaccionar
 esta clase asume que hay otros módulos disponibles: api (persistencia), inventory (stock), validators (validaciones)
-emite un evento `cart:updated` con el detalle del carrito tras cada cambio hecho por el usuario
-devuelve objetos para reportar fallos en operaciones.
-*/
+emite un evento cart:updated con el detalle del carrito tras cada cambio hecho por el usuario
+devuelve objetos para reportar fallos en operaciones */
 
 import * as api from './api.js';
 import * as inventory from './inventory.js';
